@@ -1,0 +1,35 @@
+# Pulled from "Eclipse Che Website" repo
+schemaVersion: 2.1.0
+metadata:
+  name: yarn-website
+attributes:
+  controller.devfile.io/storage-type: ephemeral
+components:
+  - name: development-tooling
+    container:
+      image: quay.io/devfile/universal-developer-image:latest
+      memoryLimit: 4Gi
+      cpuLimit: 1400m
+      endpoints:
+        - name: yarn-website
+          targetPort: 3000
+          exposure: public
+          secure: false
+          protocol: http
+commands:
+  - id: install
+    exec:
+      label: "1. Install the dependencies"
+      component: development-tooling
+      commandLine: "yarn"
+      group:
+        kind: build
+        isDefault: true
+  - id: start-dev
+    exec:
+      label: "2. Start Development mode (Hot reload + debug)"
+      component: development-tooling
+      commandLine: "yarn dev --host=0.0.0.0"
+      group:
+        kind: run
+        isDefault: true
